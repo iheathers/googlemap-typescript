@@ -8,8 +8,15 @@ const newUser = new User();
 const newCompany = new Company();
 // console.log({ newCompany });
 
-setTimeout(() => {
+window.initMap = function () {
   const googleMap = new CustomMap('googlemap');
-  googleMap.addUserMarker(newUser);
-  googleMap.addCompanyMarker(newCompany);
-}, 1000);
+  const userMarker = googleMap.addMarker(newUser);
+  const companyMarker = googleMap.addMarker(newCompany);
+};
+
+// setTimeout(() => {
+// const googleMap = new CustomMap('googlemap');
+// const userMarker = googleMap.addMarker(newUser);
+// const companyMarker = googleMap.addMarker(newCompany);
+//   console.log(google);
+// }, 1000);

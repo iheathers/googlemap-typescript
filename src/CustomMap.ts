@@ -1,6 +1,15 @@
 import { User } from './User';
 import { Company } from './Company';
 
+export interface Mappable {
+  location: {
+    longitude: number;
+    latitude: number;
+  };
+
+  getInfoContent(): string;
+}
+
 export class CustomMap {
   private googleMap: google.maps.Map;
 
@@ -14,23 +23,21 @@ export class CustomMap {
     });
   }
 
-  addUserMarker(user: User): void {
-    new google.maps.Marker({
+  addMarker(mappable: Mappable): void {
+    const marker = new google.maps.Marker({
       map: this.googleMap,
       position: {
-        lat: user.location.latitude,
-        lng: user.location.logitude,
+        lat: mappable.location.latitude,
+        lng: mappable.location.longitude,
       },
     });
-  }
 
-  addCompanyMarker(company: Company): void {
-    new google.maps.Marker({
-      map: this.googleMap,
-      position: {
-        lat: company.location.latitude,
-        lng: company.location.longitude,
-      },
+    const infowindow = new google.maps.InfoWindow({
+      content: mappable.getInfoContent(),
+    });
+
+    marker.addListener('click', () => {
+      infowindow.open(this.googleMap, marker);
     });
   }
 }
